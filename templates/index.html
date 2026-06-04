@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lexi AI // Advanced Document Classifier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a 60%);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0px rgba(99, 102, 241, 0);
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    
+    <div class="sm:mx-auto sm:w-full sm:max-w-3xl">
+        <div class="flex items-center justify-center gap-3 mb-2">
+            <span class="flex h-3 w-3 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+            </span>
+            <span class="text-xs font-semibold tracking-widest uppercase text-indigo-400">Natural Language Processing Engine</span>
+        </div>
+        <h1 class="text-center text-4xl font-extrabold tracking-tight text-white sm:text-5xl mb-3">
+            Lexi <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">AI</span>
+        </h1>
+        <p class="text-center text-sm text-slate-400 max-w-md mx-auto mb-10">
+            Enterprise-grade text classification across 20 overlapping clusters using persistent multi-class probability scoring.
+        </p>
+
+        <div class="glass-card rounded-2xl p-6 sm:p-10 shadow-2xl">
+            <form method="POST" class="space-y-6">
+                <div>
+                    <label for="text_input" class="block text-sm font-semibold text-slate-300 mb-2">Document Text Input</label>
+                    <textarea 
+                        id="text_input"
+                        name="text_input" 
+                        rows="6" 
+                        class="block w-full rounded-xl bg-slate-900/60 border border-slate-700/50 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition p-4 text-sm sm:text-base resize-none"
+                        placeholder="Paste document snippets, analytical reports, or technical logs here..." 
+                        required>{{ user_text }}</textarea>
+                </div>
+
+                <div>
+                    <button 
+                        type="submit" 
+                        class="glow-button w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors cursor-pointer">
+                        Analyze System Features
+                    </button>
+                </div>
+            </form>
+
+            {% if prediction %}
+            <div class="mt-8 pt-8 border-t border-slate-700/50 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 rounded-xl bg-slate-900/40 border border-slate-800">
+                    <div>
+                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Primary Classification</p>
+                        <h3 class="text-2xl font-bold text-cyan-400 mt-0.5">{{ prediction }}</h3>
+                    </div>
+                    <div class="text-left sm:text-right">
+                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Model Confidence</p>
+                        <h3 class="text-2xl font-bold text-indigo-400 mt-0.5">{{ confidence }}%</h3>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Probability Vector Metrics</h4>
+                    
+                    <div class="grid gap-3 max-h-96 overflow-y-auto pr-2">
+                        {% for name, prob in breakdown.items() %}
+                        <div class="p-3.5 rounded-xl bg-slate-900/20 border border-slate-800/60">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium {% if name == prediction %}text-slate-100 font-semibold{% else %}text-slate-400{% endif %}">
+                                    {{ name }}
+                                </span>
+                                <span class="text-xs font-mono {% if name == prediction %}text-cyan-400 font-bold{% else %}text-slate-500{% endif %}">
+                                    {{ prob }}%
+                                </span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                                <div 
+                                    class="h-full rounded-full transition-all duration-500 {% if name == prediction %}bg-gradient-to-r from-indigo-500 to-cyan-400{% else %}bg-slate-700{% endif %}" 
+                                    style="width: {{ prob }}%;">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <p class="text-center text-xs text-slate-600 mt-6 tracking-wide">
+            Powered by scikit-learn // Pipeline Persistent Architecture
+        </p>
+    </div>
+
+</body>
+</html>
